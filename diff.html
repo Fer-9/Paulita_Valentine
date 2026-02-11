@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Paula 💖</title>
+
+<style>
+  body {
+    background: #1b1b1b;
+    color: white;
+    font-family: "Courier New", monospace;
+    text-align: center;
+    padding-top: 40px;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: #ff66cc;
+    text-shadow: 2px 2px #000;
+  }
+
+  .opcion {
+    display: block;
+    background: #ff66cc;
+    color: black;
+    margin: 10px auto;
+    padding: 10px;
+    width: 260px;
+    cursor: pointer;
+    border: 3px solid black;
+    font-size: 16px;
+  }
+
+  .opcion:hover {
+    background: #ff99dd;
+  }
+
+  #perrito {
+    display: none;
+    font-size: 50px;
+    margin-top: 15px;
+  }
+
+  .corazon {
+    position: absolute;
+    color: pink;
+    font-size: 20px;
+    animation: flotar 5s linear infinite;
+  }
+
+  @keyframes flotar {
+    0% { bottom: -10px; opacity: 1; }
+    100% { bottom: 100%; opacity: 0; }
+  }
+
+  #noBtn {
+    background: red;
+    color: white;
+  }
+</style>
+</head>
+
+<body>
+
+<h1 id="pregunta">💾 Paulita Love Game 💾</h1>
+<div id="opciones"></div>
+<div id="perrito">🐶💔</div>
+
+<button id="startBtn" class="opcion" onclick="iniciar()">🎮 EMPEZAR JUEGO 🎮</button>
+
+<script>
+let paso = 0;
+let noSize = 1;
+
+function corazones() {
+  setInterval(() => {
+    let c = document.createElement("div");
+    c.className = "corazon";
+    c.innerHTML = "💖";
+    c.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }, 300);
+}
+corazones();
+
+function iniciar() {
+  document.getElementById("startBtn").style.display = "none";
+  paso = 0;
+  mostrarPregunta();
+}
+
+function mostrarPregunta() {
+  document.getElementById("perrito").style.display = "none";
+
+  if (paso === 0) {
+    pregunta("¿Dónde fue nuestro primer beso? 💋", [
+      ["En Boris Café ☕", true],
+      ["En el CICY 🌿", false],
+      ["En tu casa 🏠", false]
+    ]);
+  }
+
+  else if (paso === 1) {
+    pregunta("¿Cuál es nuestra canción? 🎶", [
+      ["Ultraviolence 💿", false],
+      ["Heat Waves 🌊", true],
+      ["Abre las patotas 😅", false]
+    ]);
+  }
+
+  else if (paso === 2) {
+    pregunta("¿Quién dijo te amo primero? 💞", [
+      ["Fer 💕", false],
+      ["Paula 💖", true],
+      ["Al mismo tiempo ⏳", false]
+    ]);
+  }
+
+  else if (paso === 3) {
+    document.getElementById("pregunta").innerHTML =
+      "Paula… 💖<br>¿Quieres ser mi Valentine?";
+    document.getElementById("opciones").innerHTML = `
+      <button class="opcion" onclick="final()">💘 SÍ 💘</button>
+      <button class="opcion" id="noBtn" onclick="hacerChiquito()">NO 💔</button>
+    `;
+  }
+}
+
+function pregunta(texto, opciones) {
+  document.getElementById("pregunta").innerHTML = texto;
+  let html = "";
+  opciones.forEach(o => {
+    html += `<div class="opcion" onclick="responder(${o[1]})">${o[0]}</div>`;
+  });
+  document.getElementById("opciones").innerHTML = html;
+}
+
+function responder(correcta) {
+  if (correcta) {
+    paso++;
+    mostrarPregunta();
+  } else {
+    document.getElementById("perrito").style.display = "block";
+  }
+}
+
+function hacerChiquito() {
+  noSize -= 0.15;
+  let btn = document.getElementById("noBtn");
+  if (noSize <= 0) {
+    btn.style.display = "none";
+  } else {
+    btn.style.transform = `scale(${noSize})`;
+  }
+}
+
+function final() {
+  document.getElementById("pregunta").innerHTML =
+    "💖 MUCHAS GRACIAS MI VIDA 💖<br><br>" +
+    "Gracias por aceptar ser mi Valentine.<br>" +
+    "Te amo demasiado mi Paulita 🥹💘";
+  document.getElementById("opciones").innerHTML = "";
+}
+</script>
+
+</body>
+</html>
+
+
